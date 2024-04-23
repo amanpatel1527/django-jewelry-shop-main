@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container">
+    <!-- HERO SECTION-->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+                <div class="col-lg-12 text-center">
+                    <h1 class="h2 text-uppercase mb-0">Blog</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="blog-post" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRySi3MKdajDOlDQZRLJSWKu9oR8QgQVl1Y1w&s" alt="Trending Jewelry Styles" class="img-fluid mb-3" style="width: 100%; height: 200px; border-radius: 10px; object-fit: cover; transition: transform 0.3s ease;">
+                    <h2 class="mb-4" style="color: #333; font-size: 24px; font-weight: 600;">5 Trending Jewelry Styles for 2024</h2>
+                    <p class="mb-4" style="color: #666; font-size: 16px; line-height: 1.6;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget odio id felis pretium vestibulum. Cras at urna vitae ipsum lobortis ullamcorper. Phasellus fermentum ultricies tellus, nec consequat metus fringilla a.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="blog-post" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <img src="https://t3.ftcdn.net/jpg/06/47/49/12/360_F_647491277_CEc0EIRHVlnWkFIgFyoJTtZGCYOjSaNV.jpg" alt="History of Diamonds" class="img-fluid mb-3" style="width: 100%; height: 200px; border-radius: 10px; object-fit: cover; transition: transform 0.3s ease;">
+                    <h2 class="mb-4" style="color: #333; font-size: 24px; font-weight: 600;">The History of Diamonds: From Ancient Times to Modern Jewelry</h2>
+                    <p class="mb-4" style="color: #666; font-size: 16px; line-height: 1.6;">Integer nec libero et risus finibus hendrerit. Aliquam erat volutpat. Nam eget velit purus. Duis ac arcu sit amet purus vehicula convallis.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="blog-post" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <img src="https://i.pinimg.com/736x/1f/20/97/1f20975033ae4b58249ea3bc185ca534.jpg" alt="Engagement Ring Guide" class="img-fluid mb-3" style="width: 100%; height: 200px; border-radius: 10px; object-fit: cover; transition: transform 0.3s ease;">
+                    <h2 class="mb-4" style="color: #333; font-size: 24px; font-weight: 600;">Choosing the Right Engagement Ring: A Comprehensive Guide</h2>
+                    <p class="mb-4" style="color: #666; font-size: 16px; line-height: 1.6;">Etiam a augue augue. Nulla facilisi. Donec at ex eget magna tincidunt faucibus nec vitae mauris. Sed eget turpis ligula.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="blog-post image" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <img src="https://pbs.twimg.com/media/FzSZ_T8XgAAtym1.jpg" alt="Engagement Ring Guide" class="img-fluid mb-3" style="width: 100%; height: 200px; border-radius: 10px; object-fit: cover;  transition: transform 0.3s ease; ">
+                    <h2 class="mb-4" style="color: #333; font-size: 24px; font-weight: 600;">Choosing the Right Jewelery For Your Family or loved Ones</h2>
+                    <p class="mb-4" style="color: #666; font-size: 16px; line-height: 1.6;">Etiam a augue augue. Nulla facilisi. Donec at ex eget magna tincidunt faucibus nec vitae mauris. Sed eget turpis ligula.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block additional_styles %}
+
+{% endblock additional_styles %}
+
+{% block payment-gateway %}
+<!-- Include the PayPal JavaScript SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR-PAYPAL-CLIENT-ID&currency=USD"></script>
+
+<script>
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+
+        // Set up the transaction
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '{{total_amount}}'
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                // Show a success message to the buyer
+                alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                // Savind Order in Database after Payment Success
+                document.getElementById('myform').submit();
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
+{% endblock payment-gateway %}

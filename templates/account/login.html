@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="col-md-8 offset-2">
+    <h1 class="mb-5 text-center">Log In to Your Account</h1>
+    <div class="card mb-4" style="border-radius: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+      <div class="card-body">
+        {% include 'partials/_messages.html' %}
+        <form method="post" action="" style="max-width: 400px; margin: 0 auto;">
+          <fieldset>
+            {% csrf_token %}
+            {% for fm in form %}
+              <div class="form-group">
+                {{fm.label_tag}}
+                {{fm}}
+                <small class="text-danger">{{fm.errors|striptags}}</small>
+              </div>
+            {% endfor %}
+            <button class="btn btn-primary btn-block" type="submit" style="border-radius: 20px; background: linear-gradient(135deg, #2A78E4 0%, #903EF4 100%); border: none; transition: all 0.3s ease;">Login</button>
+          </fieldset>
+          {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+              <p class="alert alert-danger my-3">
+                {{error}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </p>
+            {% endfor %}
+          {% endif %}
+        </form>
+        <hr>
+        <p class="text-center" style="color: #666;">Forgot Password? <a href="{% url 'store:password-reset' %}" style="color: #2A78E4; text-decoration: none;">Reset Now</a> | New Member? <a href="{% url 'store:register' %}" style="color: #2A78E4; text-decoration: none;">Create an Account</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Image attached directly in HTML -->
+<div style="display: none;">
+  <img src="https://i.pinimg.com/736x/25/0f/dc/250fdc088631e7e346b2a97f8f07eded.jpg" alt="">
+</div>
+{% endblock content %}
